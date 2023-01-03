@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorWho.Db.Repositories
+namespace DoctorWho.Db
 {
     public class EpisodeRepository
     {

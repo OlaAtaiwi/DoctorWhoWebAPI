@@ -1,5 +1,5 @@
 ﻿
-namespace DoctorWho.Db.Repositories
+namespace DoctorWho.Db
 {
     public class CompanionRepository
     {

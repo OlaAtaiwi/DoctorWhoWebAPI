@@ -1,9 +1,8 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace DoctorWho.Db.Repositories
+namespace DoctorWho.Db
 {
-    public class DoctorRepository
+    public class DoctorRepository:IDoctorRepository
     {
         private DoctorWhoCoreDbContext _context;
         public DoctorRepository(DoctorWhoCoreDbContext context)
@@ -20,16 +19,13 @@ namespace DoctorWho.Db.Repositories
             }
         }
 
-        public async Task DeleteDoctorAsync(string doctorName)
+        public async Task DeleteDoctorAsync(int doctorId)
         {
-            if (!string.IsNullOrEmpty(doctorName))
+            var doctor = _context.Doctors.Where(d => d.DoctorId == doctorId).FirstOrDefault();
+            if (doctor != null)
             {
-                var doctor =_context.Doctors.Where(d => d.DoctorName == doctorName).FirstOrDefault();
-                if (doctor != null)
-                {
-                    _context.Doctors.Remove(doctor);
-                    await _context.SaveChangesAsync();
-                }
+                _context.Doctors.Remove(doctor);
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -42,6 +38,14 @@ namespace DoctorWho.Db.Repositories
         public async Task<List<Doctor>> GetAllDoctorsAsync()
         {
             return await _context.Doctors.ToListAsync(); 
+        }
+
+        public async Task<bool> DoctorExists(int doctorId)
+        {
+            var doctor = await _context.Doctors.FindAsync(doctorId);
+            if(doctor!=null)
+                return true;
+           return false;   
         }
     }
 }

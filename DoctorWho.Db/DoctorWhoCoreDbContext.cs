@@ -15,7 +15,6 @@ namespace DoctorWho.Db
 
         public string CallFnCompanions(int Id) => throw new NotSupportedException();
         public string CallFnEnemies(int Id) => throw new NotSupportedException();
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=USER-PC;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=DoctorWhoCore");
