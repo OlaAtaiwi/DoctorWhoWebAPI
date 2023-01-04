@@ -44,5 +44,17 @@ namespace DoctorWho.Db
             var episodes = await _context.ViewEpisodes.ToListAsync();
             return episodes;
         }
+        public async Task<bool> AddEnemyToEpisodeAsync(int episodeId, int enemyId)
+        {
+            var episode = await _context.Episodes.FindAsync(episodeId);
+            var enemy = await _context.Enemies.FindAsync(enemyId);
+            if (episode != null && enemy != null)
+            {
+                episode.EpisodeEnemies.Add(new EpisodeEnemy { EnemyId = enemyId, EpisodeId = episodeId });
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;   
+        }
     }
 }

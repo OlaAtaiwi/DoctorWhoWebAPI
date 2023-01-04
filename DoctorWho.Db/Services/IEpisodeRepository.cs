@@ -10,5 +10,6 @@ namespace DoctorWho.Db
     {
         Task<IEnumerable<Episode>> GetEpisodesAsync();
         Task<Episode> CreateEpisodeAsync(Episode episode);
+        Task<bool> AddEnemyToEpisodeAsync(int episodeId, int enemyId);
     }
 }

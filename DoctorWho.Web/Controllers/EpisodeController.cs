@@ -31,5 +31,15 @@ namespace DoctorWho.Web.Controllers
             return Ok(_mapper.Map<EpisodeDto>(addedEpisode));
         }
 
+        [HttpPost("/{episodeId}/enemy/{enemyId}")]
+        public async Task<ActionResult> AddEnemyToEpisode(int episodeId,int enemyId)
+        {
+            var result=await _episodeRepository.AddEnemyToEpisodeAsync(episodeId,enemyId);
+            if (result)
+                return Ok();
+            else
+                return BadRequest();
+        }
+
     }
 }
