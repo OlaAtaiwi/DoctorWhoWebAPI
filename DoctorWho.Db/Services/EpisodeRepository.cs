@@ -1,10 +1,8 @@
-﻿
-using DoctorWho.Db;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace DoctorWho.Db
 {
-    public class EpisodeRepository:IEpisodeRepository
+    public class EpisodeRepository : IEpisodeRepository
     {
         private DoctorWhoCoreDbContext _context;
         public EpisodeRepository(DoctorWhoCoreDbContext context)
@@ -15,7 +13,7 @@ namespace DoctorWho.Db
         {
             _context.Episodes.Add(episode);
             await _context.SaveChangesAsync();
-            return episode; 
+            return episode;
         }
 
         public async Task DeleteEpisodeAsync(int episodeNumber, string episodeTitle)
@@ -54,7 +52,20 @@ namespace DoctorWho.Db
                 await _context.SaveChangesAsync();
                 return true;
             }
-            return false;   
+            return false;
+        }
+
+        public async Task<bool> AddCompanionToEpisodeAsync(int episodeId, int companionId)
+        {
+            var episode = await _context.Episodes.FindAsync(episodeId);
+            var companion = await _context.Companions.FindAsync(companionId);
+            if (episode != null && companion != null)
+            {
+                episode.EpisodeCompanions.Add(new EpisodeCompanion { CompanionId = companionId, EpisodeId = episodeId });
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

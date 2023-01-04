@@ -41,5 +41,14 @@ namespace DoctorWho.Web.Controllers
                 return BadRequest();
         }
 
+        [HttpPost("/{episodeId}/companion/{companionId}")]
+        public async Task<ActionResult> AddCompanionToEpisode(int episodeId, int companionId)
+        {
+            var result = await _episodeRepository.AddCompanionToEpisodeAsync(episodeId, companionId);
+            if (result)
+                return Ok();
+            else
+                return BadRequest();
+        }
     }
 }
