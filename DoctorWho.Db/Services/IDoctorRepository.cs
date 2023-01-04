@@ -11,5 +11,7 @@ namespace DoctorWho.Db
         Task<List<Doctor>> GetAllDoctorsAsync();
         Task<bool> DoctorExists(int doctorId);
         Task DeleteDoctorAsync(int doctorId);
+        Task<Doctor> CreateDoctorAsync(Doctor doctor);
+        Task<Doctor> UpdateDoctorAsync(Doctor doctor);
     }
 }

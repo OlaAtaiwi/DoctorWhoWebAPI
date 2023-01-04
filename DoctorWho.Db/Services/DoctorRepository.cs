@@ -9,16 +9,19 @@ namespace DoctorWho.Db
         {
             _context = context;
         }
-        public async Task CreateDoctorAsync(string doctorName, int doctorNumber)
+        public async Task<Doctor> CreateDoctorAsync(Doctor doctor)
         {
-            if (!string.IsNullOrEmpty(doctorName))
-            {
-                var doctor = new Doctor { DoctorName = doctorName, DoctorNumber = doctorNumber };
-                _context.Doctors.Add(doctor);
-                await _context.SaveChangesAsync();
-            }
+            _context.Doctors.Add(doctor);
+            await _context.SaveChangesAsync();
+            return doctor;
         }
-
+        public async Task<Doctor> UpdateDoctorAsync(Doctor doctor)
+        {
+            var original = await _context.Doctors.FirstOrDefaultAsync(d => d.DoctorId == doctor.DoctorId);
+            _context.Entry(original).CurrentValues.SetValues(doctor);
+            await _context.SaveChangesAsync();     
+            return doctor;
+        }
         public async Task DeleteDoctorAsync(int doctorId)
         {
             var doctor = _context.Doctors.Where(d => d.DoctorId == doctorId).FirstOrDefault();
@@ -27,12 +30,6 @@ namespace DoctorWho.Db
                 _context.Doctors.Remove(doctor);
                 await _context.SaveChangesAsync();
             }
-        }
-
-        public async Task UpdateDoctorAsync(Doctor doctor)
-        {
-            _context.Doctors.Update(doctor);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Doctor>> GetAllDoctorsAsync()
@@ -47,5 +44,7 @@ namespace DoctorWho.Db
                 return true;
            return false;   
         }
+
+       
     }
 }
