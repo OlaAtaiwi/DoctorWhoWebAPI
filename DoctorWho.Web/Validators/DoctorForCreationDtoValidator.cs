@@ -7,9 +7,9 @@ namespace DoctorWho.Web.Validators
     {
         public DoctorForCreationDtoValidator()
         {
-            RuleFor(d=>d.DoctorName).NotEmpty()
+            RuleFor(d => d.DoctorName).NotEmpty().NotNull()
                 .WithMessage("Name is required");
-            RuleFor(d => d.DoctorNumber).NotEmpty()
+            RuleFor(d => d.DoctorNumber).NotEmpty().NotNull() 
                 .WithMessage("Number is required");
             RuleFor(d=>d.LastEpisodeDate).Empty()
                 .When(d =>d.FirstEpisodeDate==null)
