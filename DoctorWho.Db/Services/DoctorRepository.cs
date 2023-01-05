@@ -43,8 +43,6 @@ namespace DoctorWho.Db
             if(doctor!=null)
                 return true;
            return false;   
-        }
-
-       
+        }       
     }
 }

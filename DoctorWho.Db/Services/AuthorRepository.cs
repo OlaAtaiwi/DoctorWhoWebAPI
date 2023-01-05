@@ -1,7 +1,10 @@
 ﻿
-namespace DoctorWho.Db.Repositories
+using Microsoft.EntityFrameworkCore;
+using System.Numerics;
+
+namespace DoctorWho.Db
 {
-    public class AuthorRepository
+    public class AuthorRepository:IAuthorRepository
     {
         private DoctorWhoCoreDbContext _context;
         public AuthorRepository(DoctorWhoCoreDbContext context)
@@ -29,10 +32,19 @@ namespace DoctorWho.Db.Repositories
                 }
             }
         }
-        public async Task UpdateAuthorAsync(Author auth)
+        public async Task<Author> UpdateAuthorAsync(Author auth)
         {
-           _context.Authors.Update(auth);
+           var original = await _context.Authors.FirstOrDefaultAsync(a => a.AuthorId== auth.AuthorId);
+            _context.Entry(original).CurrentValues.SetValues(auth);
             await _context.SaveChangesAsync();
+            return auth;
+        }
+        public async Task<bool> AuthorExists(int authorId)
+        {
+            var author = await _context.Authors.FindAsync(authorId);
+            if (author != null)
+                return true;
+            return false;
         }
     }
 }

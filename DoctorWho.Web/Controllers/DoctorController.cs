@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using DoctorWho.Db.Repositories;
 using DoctorWho.Db;
 using System.Text.Json;
 using AutoMapper;
