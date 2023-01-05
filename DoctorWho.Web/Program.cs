@@ -1,7 +1,7 @@
 using DoctorWho.Db;
 using FluentValidation.AspNetCore;
 using System.Reflection;
-
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,7 +11,10 @@ builder.Services.AddControllers()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DoctorWhoCoreDbContext>();
+//builder.Services.AddDbContext<DoctorWhoCoreDbContext>();
+builder.Services.AddDbContext<DoctorWhoCoreDbContext>(
+    dbContextOptions => dbContextOptions.UseSqlServer(
+        builder.Configuration["ConnectionStrings:DefaultConnection"]));
 //builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IEpisodeRepository, EpisodeRepository>();
