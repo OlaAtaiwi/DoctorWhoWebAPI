@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorWho.Db.Repositories
+namespace DoctorWho.Db
 {
     public class EpisodeEnemyRepository
     {
@@ -13,10 +13,11 @@ namespace DoctorWho.Db.Repositories
         public async Task AddEnemyToEpisodeAsync(int episodeId, int enemyId)
         {
             var episode = await _context.Episodes.FindAsync(episodeId);
-            if (episode != null)
+            var enemy = await _context.Enemies.FindAsync(enemyId);
+            if (episode != null && enemy != null)
             {
                 episode.EpisodeEnemies.Add(new EpisodeEnemy { EnemyId = enemyId, EpisodeId = episodeId });
-               await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
         }
 
